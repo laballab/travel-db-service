@@ -36,6 +36,10 @@ users_db_cols = ('user_id','username','password','firstname','lastname')
 app = Flask(__name__)
 CORS(app)
 
+app.register_blueprint(users.mod)
+app.register_blueprint(trips.mod)
+app.register_blueprint(transactions.mod)
+
 
 @app.route('/')
 def home():
@@ -66,6 +70,7 @@ def home():
     return str(json.dumps(result))
 # [END gae_python37_cloudsql_psql]
 
+'''
 @app.route('/user/<user_id>', methods=['GET'])
 def getUser(user_id):
     if os.environ.get('GAE_ENV'):
@@ -116,6 +121,7 @@ def createUser():
 
     #return str(json.dumps(result))
 # [END gae_python37_cloudsql_psql]
+'''
 
 
 if __name__ == '__main__':
