@@ -26,12 +26,13 @@ import json
 #db_connection_name = os.environ.get('CLOUD_SQL_CONNECTION_NAME')
 
 
-users_db_cols = ('user_id','username','password','firstname','lastname')
 
 db_user = 'dbadmin'
 db_password = 'admin1!'
 db_name = 'postgres'
 db_connection_name = 'skilful-courage-220001:us-east1:travel-db-instance'
+
+users_db_cols = ('user_id','username','password','firstname','lastname')
 
 app = Flask(__name__)
 

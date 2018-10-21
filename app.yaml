@@ -2,8 +2,12 @@
 runtime: python37
 
 env_variables:
-  CLOUDSQL_USERNAME: YOUR-USERNAME
-  CLOUDSQL_PASSWORD: YOUR-PASSWORD
-  CLOUDSQL_DATABASE_NAME: YOUR-DATABASE
-  CLOUDSQL_CONNECTION_NAME: YOUR-CONNECTION-NAME
+  CLOUDSQL_USERNAME: dbadmin
+  CLOUDSQL_PASSWORD: admin1!
+  CLOUDSQL_DATABASE_NAME: postgres 
+  CLOUDSQL_CONNECTION_NAME: skilful-courage-220001:us-east1:travel-db-instance
+
+handlers:
+- url: /.*
+  script: main.app
 # [END gae_python37_cloudsql_config]
