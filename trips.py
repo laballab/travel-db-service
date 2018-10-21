@@ -18,8 +18,8 @@ db_name = 'postgres'
 db_connection_name = 'skilful-courage-220001:us-east1:travel-db-instance'
 
 
-@mod.route('/trip/<trip_id>', methods=['GET'])
-def getTrip(trip_id):
+@mod.route('/trip', methods=['GET'])
+def getTrip():
     if os.environ.get('GAE_ENV'):
         host = '/cloudsql/{}'.format(db_connection_name)
     else:
@@ -28,15 +28,28 @@ def getTrip(trip_id):
     cnx = psycopg2.connect(dbname=db_name, user=db_user,
                            password=db_password, host=host)
 
+    user_id = request.args.get('userID', '')
+    trip_id = request.args.get('tripID', '')
+    
     result = []
     with cnx.cursor() as cursor:
-        cursor.execute('SELECT * FROM trips WHERE trip_id='
+        if user_id == '':
+            query = ('SELECT * FROM trips WHERE trip_id='
                       +trip_id+ ';')
+        elif trip_id == '':
+            query = ('SELECT * FROM trips WHERE user_id='
+                      +user_id+ ';')
+        else:
+            query = ('SELECT * FROM trips WHERE trip_id='
+                      +trip_id+ ' AND user_id='
+                      +user_id+ ';')
+
+        cursor.execute(query)
         for row in cursor.fetchall():
           result.append(dict(zip(trips_db_cols,row)))
 
-    cnx.commit()
-    cnx.close()
+        cnx.commit()
+        cnx.close()
 
     return str(json.dumps(result))
 # [END gae_python37_cloudsql_psql]
