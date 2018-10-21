@@ -1,3 +1,4 @@
+|Python versions|
 image:: https://img.shields.io/badge/python-3.6.5-brightgreen.svg
 
 # travel-db-service
@@ -11,3 +12,8 @@ pip install -r requirements.txt
 
 ## Running
 source env/postgres/bin/activate
+
+.. |Python versions| image:: https://img.shields.io/badge/python-3.6.5-brightgreen.svg
+
+   :target: https://img.shields.io/badge/python-3.6.5-brightgreen.svg
+
