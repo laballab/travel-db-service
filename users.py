@@ -18,8 +18,8 @@ db_name = 'postgres'
 db_connection_name = 'skilful-courage-220001:us-east1:travel-db-instance'
 
 
-@mod.route('/user/<user_id>', methods=['GET'])
-def getUser(user_id):
+@mod.route('/user', methods=['GET'])
+def getUser():
     if os.environ.get('GAE_ENV'):
         host = '/cloudsql/{}'.format(db_connection_name)
     else:
@@ -28,10 +28,17 @@ def getUser(user_id):
     cnx = psycopg2.connect(dbname=db_name, user=db_user,
                            password=db_password, host=host)
 
+    user_id = request.args.get('userID', '')
+
     result = []
     with cnx.cursor() as cursor:
-        cursor.execute('SELECT * FROM users WHERE user_id='
-                      +user_id+ ';')
+        if user_id == '':
+            query = ('SELECT * FROM users')
+        else:
+            query = ('SELECT * FROM users WHERE user_id='
+                     +user_id+ ';')
+
+        cursor.execute(query)        
         for row in cursor.fetchall():
           result.append(dict(zip(users_db_cols,row)))
 

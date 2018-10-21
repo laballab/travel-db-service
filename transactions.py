@@ -1,4 +1,4 @@
-mport os
+import os
 import datetime 
 
 #import main_postgres
@@ -35,15 +35,15 @@ def getTransaction():
     result = []
     with cnx.cursor() as cursor:
         if user_id == '':
-            query = ('SELECT transaction_id, trip_name, user_id, description, amount, personal FROM transactions WHERE trip_name='
-                      +trip_name+ ';')
+            query = ("SELECT transaction_id, trip_name, user_id, description, amount, personal FROM transactions WHERE trip_name='"
+                      +trip_name+ "';")
         elif trip_name == '':
-            query = ('SELECT transaction_id, trip_name, user_id, description, amount, personal FROM transactions WHERE user_id='
-                      +user_id+ ';')
+            query = ("SELECT transaction_id, trip_name, user_id, description, amount, personal FROM transactions WHERE user_id='"
+                      +user_id+ "';")
         else:
-            query = ('SELECT transaction_id, trip_name, user_id, description, amount, personal FROM transactions WHERE trip_name='
-                      +trip_name+ ' AND user_id='
-                      +user_id+ ';')
+            query = ("SELECT transaction_id, trip_name, user_id, description, amount, personal FROM transactions WHERE trip_name='"
+                      +trip_name+ "' AND user_id='"
+                      +user_id+ "';")
 
         cursor.execute(query)
         for row in cursor.fetchall():
