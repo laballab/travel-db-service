@@ -1,4 +1,5 @@
 import os
+import datetime 
 
 #import main_postgres
 
@@ -10,7 +11,7 @@ import simplejson as json
 
 mod = Blueprint('transactions',__name__)
 
-transactions_db_cols = ('transaction_id','trip_id','user_id','description', 'amount', 'datetime', 'personal')
+transactions_db_cols = ('transaction_id','trip_id','user_id','description', 'amount', 'personal')
 
 db_user = 'dbadmin'
 db_password = 'admin1!'
@@ -18,8 +19,8 @@ db_name = 'postgres'
 db_connection_name = 'skilful-courage-220001:us-east1:travel-db-instance'
 
 
-@mod.route('/transaction/<transaction_id>', methods=['GET'])
-def getTransaction(transaction_id):
+@mod.route('/transaction', methods=['GET'])
+def getTransaction():
     if os.environ.get('GAE_ENV'):
         host = '/cloudsql/{}'.format(db_connection_name)
     else:
@@ -28,10 +29,23 @@ def getTransaction(transaction_id):
     cnx = psycopg2.connect(dbname=db_name, user=db_user,
                            password=db_password, host=host)
 
+    trip_id = request.args.get('tripID', '')
+    user_id = request.args.get('userID', '')
+
     result = []
     with cnx.cursor() as cursor:
-        cursor.execute('SELECT * FROM transactions WHERE transaction_id='
-                      +transaction_id+ ';')
+        if user_id == '':
+            query = ('SELECT transaction_id, trip_id, user_id, description, amount, personal FROM transactions WHERE trip_id='
+                      +trip_id+ ';')
+        elif trip_id == '':
+            query = ('SELECT transaction_id, trip_id, user_id, description, amount, personal FROM transactions WHERE user_id='
+                      +user_id+ ';')
+        else:
+            query = ('SELECT transaction_id, trip_id, user_id, description, amount, personal FROM transactions WHERE trip_id='
+                      +trip_id+ ' AND user_id='
+                      +user_id+ ';')
+
+        cursor.execute(query)
         for row in cursor.fetchall():
           result.append(dict(zip(transactions_db_cols,row)))
 
@@ -51,16 +65,17 @@ def createTransaction():
     cnx = psycopg2.connect(dbname=db_name, user=db_user,
                            password=db_password, host=host)
     
-    trip_id = request.args.get('trip_id', '')
-    user_id = request.args.get('user_id', '')
+    trip_id = request.args.get('tripID', '')
+    user_id = request.args.get('userID', '')
     description = request.args.get('description', '')
     amount = request.args.get('amount', '')
-    datetime = request.args.get('datetime', '')
-    personal = request.args.get('personal', '')
+    dateTime = str(datetime.datetime.now())
+    if(request.args.get('personal', '') == 'true'): personal = str(True)
+    else: personal = str(False)
 
     #result = []
     with cnx.cursor() as cursor:
-        cursor.execute("INSERT INTO transactions (trip_id, user_id, description, amount, datetime, personal) VALUES ('" +trip_id+ "','" +user_id+ "','" +description+ "','" +amount+ "','" +datetime+ "','" +personal+ "');")
+        cursor.execute("INSERT INTO transactions (trip_id, user_id, description, amount, datetime, personal) VALUES ('" +trip_id+ "','" +user_id+ "','" +description+ "','" +amount+ "','" +dateTime+ "','" +personal+ "');")
         #for row in cursor.fetchall():
           #result.append(dict(zip(transactions_db_cols,row)))
 
