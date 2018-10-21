@@ -16,9 +16,9 @@
 import os
 
 from flask import Flask
-from flask import request 
-from flask_cors import CORS
+from flask import request
 import psycopg2
+from flask_cors import CORS
 import simplejson as json
 
 import users
