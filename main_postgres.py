@@ -15,6 +15,7 @@
 # [START gae_python37_cloudsql_psql]
 import os
 
+
 from flask import Flask
 from flask import request 
 import psycopg2
@@ -25,8 +26,11 @@ import json
 #db_name = os.environ.get('CLOUD_SQL_DATABASE_NAME')
 #db_connection_name = os.environ.get('CLOUD_SQL_CONNECTION_NAME')
 
+import users
+import trips
+import transactions
 
-users_db_cols = ('user_id','username','password','firstname','lastname')
+#users_db_cols = ('user_id','username','password','firstname','lastname')
 
 db_user = 'dbadmin'
 db_password = 'admin1!'
@@ -34,6 +38,9 @@ db_name = 'postgres'
 db_connection_name = 'skilful-courage-220001:us-east1:travel-db-instance'
 
 app = Flask(__name__)
+app.register_blueprint(users.mod)
+app.register_blueprint(trips.mod)
+app.register_blueprint(transactions.mod)
 
 
 @app.route('/')
@@ -65,6 +72,7 @@ def main():
     return str(json.dumps(result))
 # [END gae_python37_cloudsql_psql]
 
+'''
 @app.route('/user/<user_id>', methods=['GET'])
 def getUser(user_id):
     if os.environ.get('GAE_ENV'):
@@ -115,7 +123,7 @@ def createUser():
 
     #return str(json.dumps(result))
 # [END gae_python37_cloudsql_psql]
-
+'''
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=8080, debug=True)
