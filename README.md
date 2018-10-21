@@ -1,3 +1,5 @@
+https://img.shields.io/badge/python-3.6.5-brightgreen.svg
+
 # travel-db-service
 Flask database webservice used as part of a project for HackGT 2018! 
 
