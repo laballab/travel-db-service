@@ -29,19 +29,19 @@ def getTrip():
                            password=db_password, host=host)
 
     user_id = request.args.get('userID', '')
-    trip_id = request.args.get('tripID', '')
+    trip_name = request.args.get('tripName', '')
     
     result = []
     with cnx.cursor() as cursor:
         if user_id == '':
-            query = ('SELECT * FROM trips WHERE trip_id='
-                      +trip_id+ ';')
-        elif trip_id == '':
+            query = ('SELECT * FROM trips WHERE trip_name='
+                      +trip_name+ ';')
+        elif trip_name == '':
             query = ('SELECT * FROM trips WHERE user_id='
                       +user_id+ ';')
         else:
-            query = ('SELECT * FROM trips WHERE trip_id='
-                      +trip_id+ ' AND user_id='
+            query = ('SELECT * FROM trips WHERE trip_name='
+                      +trip_name+ ' AND user_id='
                       +user_id+ ';')
 
         cursor.execute(query)
@@ -64,7 +64,7 @@ def createTrip():
     cnx = psycopg2.connect(dbname=db_name, user=db_user,
                            password=db_password, host=host)
     
-    user_id = request.args.get('user_id', '')
+    user_id = request.args.get('userID', '')
     amount_due = request.args.get('amountDue', '')
     trip_name = request.args.get('tripName', '')
 
@@ -76,7 +76,9 @@ def createTrip():
 
     cnx.commit()
     cnx.close()
-    return ('SUCCESS')
+
+    result = dict([('tripName',trip_name)])
+    return str(json.dumps(result))
 
     #return str(json.dumps(result))
 # [END gae_python37_cloudsql_psql]
