@@ -4,7 +4,8 @@ import os
 
 #from main_postgres import app
 
-from flask import Flask, request, Blueprint
+#from flask import Flask, request, Blueprint
+from flask import request, Blueprint
 import psycopg2
 import simplejson as json
 
