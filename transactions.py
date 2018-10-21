@@ -6,7 +6,7 @@ import os
 
 from flask import Flask, request, Blueprint
 import psycopg2
-import json
+import simplejson as json
 
 mod = Blueprint('transactions',__name__)
 
@@ -31,9 +31,9 @@ def getTransaction(transaction_id):
     result = []
     with cnx.cursor() as cursor:
         cursor.execute('SELECT * FROM transactions WHERE transaction_id='
-                      +transation_id+ ';')
+                      +transaction_id+ ';')
         for row in cursor.fetchall():
-          result.append(dict(zip(transaction_db_cols,row)))
+          result.append(dict(zip(transactions_db_cols,row)))
 
     cnx.commit()
     cnx.close()

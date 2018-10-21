@@ -21,6 +21,10 @@ from flask_cors import CORS
 import psycopg2
 import simplejson as json
 
+import users
+import trips
+import transactions
+
 #db_user = os.environ.get('CLOUD_SQL_USERNAME')
 #db_password = os.environ.get('CLOUD_SQL_PASSWORD')
 #db_name = os.environ.get('CLOUD_SQL_DATABASE_NAME')

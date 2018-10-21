@@ -6,7 +6,7 @@ import os
 
 from flask import Flask, request, Blueprint
 import psycopg2
-import json
+import simplejson as json
 
 mod = Blueprint('users',__name__)
 
