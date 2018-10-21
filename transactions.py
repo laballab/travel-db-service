@@ -1,4 +1,4 @@
-import os
+mport os
 import datetime 
 
 #import main_postgres
@@ -11,7 +11,7 @@ import simplejson as json
 
 mod = Blueprint('transactions',__name__)
 
-transactions_db_cols = ('transaction_id','trip_id','user_id','description', 'amount', 'personal')
+transactions_db_cols = ('transaction_id','trip_name','user_id','description', 'amount', 'personal')
 
 db_user = 'dbadmin'
 db_password = 'admin1!'
@@ -29,20 +29,20 @@ def getTransaction():
     cnx = psycopg2.connect(dbname=db_name, user=db_user,
                            password=db_password, host=host)
 
-    trip_id = request.args.get('tripID', '')
+    trip_name = request.args.get('tripName', '')
     user_id = request.args.get('userID', '')
 
     result = []
     with cnx.cursor() as cursor:
         if user_id == '':
-            query = ('SELECT transaction_id, trip_id, user_id, description, amount, personal FROM transactions WHERE trip_id='
-                      +trip_id+ ';')
-        elif trip_id == '':
-            query = ('SELECT transaction_id, trip_id, user_id, description, amount, personal FROM transactions WHERE user_id='
+            query = ('SELECT transaction_id, trip_name, user_id, description, amount, personal FROM transactions WHERE trip_name='
+                      +trip_name+ ';')
+        elif trip_name == '':
+            query = ('SELECT transaction_id, trip_name, user_id, description, amount, personal FROM transactions WHERE user_id='
                       +user_id+ ';')
         else:
-            query = ('SELECT transaction_id, trip_id, user_id, description, amount, personal FROM transactions WHERE trip_id='
-                      +trip_id+ ' AND user_id='
+            query = ('SELECT transaction_id, trip_name, user_id, description, amount, personal FROM transactions WHERE trip_name='
+                      +trip_name+ ' AND user_id='
                       +user_id+ ';')
 
         cursor.execute(query)
@@ -65,7 +65,7 @@ def createTransaction():
     cnx = psycopg2.connect(dbname=db_name, user=db_user,
                            password=db_password, host=host)
     
-    trip_id = request.args.get('tripID', '')
+    trip_name = request.args.get('tripName', '')
     user_id = request.args.get('userID', '')
     description = request.args.get('description', '')
     amount = request.args.get('amount', '')
@@ -75,7 +75,7 @@ def createTransaction():
 
     #result = []
     with cnx.cursor() as cursor:
-        cursor.execute("INSERT INTO transactions (trip_id, user_id, description, amount, datetime, personal) VALUES ('" +trip_id+ "','" +user_id+ "','" +description+ "','" +amount+ "','" +dateTime+ "','" +personal+ "');")
+        cursor.execute("INSERT INTO transactions (trip_name, user_id, description, amount, datetime, personal) VALUES ('" +trip_name+ "','" +user_id+ "','" +description+ "','" +amount+ "','" +dateTime+ "','" +personal+ "');")
         #for row in cursor.fetchall():
           #result.append(dict(zip(transactions_db_cols,row)))
 
