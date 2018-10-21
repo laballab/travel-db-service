@@ -1,6 +1,5 @@
 {
   "python.pythonPath": "./env/postgres/bin/python",
-  // "python.linting.pylintArgs": ["--reports", "12", "--disable-msg", "I0011"],
   "python.linting.pylintArgs": ["--disable", "C,E0401"],
   "python.linting.pylintPath": "./env/postgres/bin/pylint",
 }
