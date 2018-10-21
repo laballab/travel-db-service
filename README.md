@@ -1,6 +1,3 @@
-|Python versions|
-image:: https://img.shields.io/badge/python-3.6.5-brightgreen.svg
-
 # travel-db-service
 Flask database webservice used as part of a project for HackGT 2018! 
 
@@ -12,8 +9,3 @@ pip install -r requirements.txt
 
 ## Running
 source env/postgres/bin/activate
-
-.. |Python versions| image:: https://img.shields.io/badge/python-3.6.5-brightgreen.svg
-
-   :target: https://img.shields.io/badge/python-3.6.5-brightgreen.svg
-
